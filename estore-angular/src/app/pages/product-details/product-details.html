@@ -1,0 +1,107 @@
+<main class="max-w-[1280px] mx-auto px-6 py-10">
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-1 text-[#787680] text-xs mb-8">
+    <a routerLink="/home" class="hover:text-[#070235]">Home</a>
+    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+    <a routerLink="/products" class="hover:text-[#070235]">Electronics</a>
+    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+    <span class="text-[#47464f]">Lumina X1 Headphones</span>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    <!-- Gallery -->
+    <div class="lg:col-span-7">
+      <div class="bg-[#e5e1e6] rounded-2xl h-96 flex items-center justify-center mb-4">
+        <span class="material-symbols-outlined text-[#787680] text-[160px]">headphones</span>
+      </div>
+      <div class="grid grid-cols-4 gap-3">
+        @for (img of product.images; track img; let i = $index) {
+          <button
+            (click)="selectedImage = i"
+            class="bg-[#e5e1e6] rounded-xl h-20 flex items-center justify-center border-2 transition-all"
+            [class.border-[#818CF8]]="selectedImage === i"
+            [class.border-transparent]="selectedImage !== i">
+            <span class="material-symbols-outlined text-[#787680] text-[32px]">headphones</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="lg:col-span-5 space-y-6">
+      <div>
+        <p class="text-xs text-[#787680] uppercase tracking-wider font-semibold mb-1">{{ product.category }}</p>
+        <h1 class="text-2xl font-bold text-[#070235] leading-tight">{{ product.name }}</h1>
+        <div class="flex items-center gap-2 mt-3">
+          <div class="flex">
+            @for (i of [1,2,3,4,5]; track i) {
+              <span class="material-symbols-outlined text-yellow-400 text-[18px]" style="font-variation-settings:'FILL' 1">star</span>
+            }
+          </div>
+          <span class="font-semibold text-sm text-[#1c1b1f]">{{ product.rating }}</span>
+          <span class="text-[#787680] text-sm">({{ product.reviews }} reviews)</span>
+        </div>
+      </div>
+
+      <div class="flex items-baseline gap-3">
+        <span class="text-3xl font-bold text-[#070235]">${{ product.price }}</span>
+        <span class="text-lg text-[#787680] line-through">${{ product.originalPrice }}</span>
+        <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">25% OFF</span>
+      </div>
+
+      <p class="text-[#47464f] text-sm leading-relaxed">{{ product.description }}</p>
+
+      <!-- Color selection -->
+      <div>
+        <p class="text-sm font-semibold text-[#070235] mb-2">Color: <span class="font-normal text-[#5c5f60]">{{ selectedColor }}</span></p>
+        <div class="flex gap-2">
+          @for (color of product.colors; track color) {
+            <button
+              (click)="selectedColor = color"
+              class="px-3 py-1.5 rounded-lg text-xs font-medium border-2 transition-all"
+              [class.border-[#818CF8]]="selectedColor === color"
+              [class.text-[#818CF8]]="selectedColor === color"
+              [class.border-[#c8c5d0]]="selectedColor !== color"
+              [class.text-[#5c5f60]]="selectedColor !== color">
+              {{ color }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Quantity -->
+      <div>
+        <p class="text-sm font-semibold text-[#070235] mb-2">Quantity</p>
+        <div class="flex items-center gap-3">
+          <button (click)="decreaseQty()" class="w-9 h-9 rounded-lg border border-[#c8c5d0] flex items-center justify-center hover:bg-[#f1ecf2] transition-colors text-[#070235] font-bold">−</button>
+          <span class="w-10 text-center font-semibold text-[#070235]">{{ quantity }}</span>
+          <button (click)="increaseQty()" class="w-9 h-9 rounded-lg border border-[#c8c5d0] flex items-center justify-center hover:bg-[#f1ecf2] transition-colors text-[#070235] font-bold">+</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <button (click)="addToCart()"
+          class="flex-1 py-3 rounded-lg font-bold text-sm transition-all"
+          [class.bg-green-500]="addedToCart"
+          [class.text-white]="addedToCart"
+          [class.bg-[#818CF8]]="!addedToCart"
+          [class.text-white]="!addedToCart">
+          {{ addedToCart ? '✓ Added to Cart!' : 'Add to Cart' }}
+        </button>
+        <button class="flex-1 bg-[#070235] text-white py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-all">Buy Now</button>
+      </div>
+
+      <!-- Features -->
+      <div class="bg-[#f6f2f7] rounded-xl p-5 space-y-2">
+        <p class="text-sm font-semibold text-[#070235] mb-3">Key Features</p>
+        @for (feature of product.features; track feature) {
+          <div class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-[#818CF8] text-[18px] mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+            <span class="text-sm text-[#47464f]">{{ feature }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>

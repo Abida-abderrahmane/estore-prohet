@@ -1,0 +1,64 @@
+<main class="max-w-[1280px] mx-auto px-6 py-10">
+  <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-[#070235]">Order History</h1>
+      <p class="text-[#5c5f60] text-sm mt-1">Manage your recent purchases and track your deliveries.</p>
+    </div>
+    <button class="flex items-center gap-2 px-4 py-2 bg-[#818CF8] text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all">
+      <span class="material-symbols-outlined text-[18px]">download</span>
+      Export Orders
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-1 bg-[#f1ecf2] p-1 rounded-xl mb-6 w-fit flex-wrap">
+    @for (tab of tabs; track tab) {
+      <button
+        (click)="activeTab = tab"
+        class="px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all"
+        [class.bg-white]="activeTab === tab"
+        [class.text-[#070235]]="activeTab === tab"
+        [class.shadow-sm]="activeTab === tab"
+        [class.text-[#5c5f60]]="activeTab !== tab">
+        {{ tab }}
+      </button>
+    }
+  </div>
+
+  <!-- Orders List -->
+  <div class="space-y-4">
+    @for (order of filteredOrders; track order.id) {
+      <div class="bg-white rounded-xl p-6 card-shadow border border-[#c8c5d0]/50 hover:shadow-md transition-all">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[#e3dfff] rounded-xl flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[#070235] text-[24px]">package_2</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-bold text-[#070235] text-sm">{{ order.id }}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full font-semibold capitalize" [class]="statusClass(order.status)">
+                  {{ order.status }}
+                </span>
+              </div>
+              <p class="text-xs text-[#787680] mt-1">{{ order.date }} · {{ order.items }} item{{ order.items > 1 ? 's' : '' }}</p>
+              <p class="text-sm text-[#47464f] mt-1">{{ order.products.join(', ') }}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-lg font-bold text-[#070235]">${{ order.total.toFixed(2) }}</span>
+            <button class="px-4 py-2 border border-[#c8c5d0] rounded-lg text-sm font-medium text-[#070235] hover:bg-[#f1ecf2] transition-colors">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+    @empty {
+      <div class="text-center py-20 text-[#787680]">
+        <span class="material-symbols-outlined text-[64px] block mb-3">inbox</span>
+        <p class="font-semibold">No orders in this category</p>
+      </div>
+    }
+  </div>
+</main>

@@ -1,0 +1,54 @@
+<header class="fixed top-0 z-50 w-full bg-white shadow-sm border-b border-[#c8c5d0]">
+  <div class="flex justify-between items-center w-full px-6 max-w-[1280px] mx-auto h-16">
+
+    <!-- Logo -->
+    <a routerLink="/home" class="text-2xl font-bold text-[#070235] no-underline">E-Store</a>
+
+    <!-- Nav links desktop -->
+    <nav class="hidden md:flex items-center gap-6">
+      @for (link of navLinks; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="nav-link-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link">
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+
+    <!-- Actions desktop -->
+    <div class="flex items-center gap-4">
+      <div class="relative hidden lg:block">
+        <input
+          class="bg-[#f6f2f7] border border-[#c8c5d0] rounded-lg px-4 py-1.5 text-sm focus:outline-none focus:border-[#1e1b4b] w-64"
+          placeholder="Search products..."
+          type="text"/>
+        <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#787680] text-[20px]">search</span>
+      </div>
+      <a routerLink="/login" class="nav-link px-3 py-1.5">Login</a>
+      <a routerLink="/register" class="btn-primary">Register</a>
+    </div>
+
+    <!-- Hamburger mobile -->
+    <button class="md:hidden p-2 text-[#070235]" (click)="menuOpen = !menuOpen" aria-label="Toggle menu">
+      <span class="material-symbols-outlined">{{ menuOpen ? 'close' : 'menu' }}</span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  @if (menuOpen) {
+    <div class="md:hidden bg-white border-t border-[#c8c5d0] px-6 py-4 flex flex-col gap-3">
+      @for (link of navLinks; track link.path) {
+        <a [routerLink]="link.path" (click)="menuOpen = false" class="nav-link py-1">{{ link.label }}</a>
+      }
+      <div class="flex gap-3 pt-2 border-t border-[#c8c5d0]">
+        <a routerLink="/login" class="btn-secondary flex-1 text-center">Login</a>
+        <a routerLink="/register" class="btn-primary flex-1 text-center">Register</a>
+      </div>
+    </div>
+  }
+</header>
+
+<!-- Spacer for fixed navbar -->
+<div class="h-16"></div>
